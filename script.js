@@ -5,6 +5,8 @@ const ca = (el)=> document.querySelectorAll(el);
 //Armazena a quantidade de items(pizzas)
 let = modalQt = 1;
 
+
+// Listagem das Pizzas
 pizzaJson.map((pizza, index) => {
     // Clona o pizza-item com todos os atributos e valores
     let pizzaItem = c('.models .pizza-item').cloneNode(true);
@@ -30,7 +32,7 @@ pizzaJson.map((pizza, index) => {
         const key = e.target.closest('.pizza-item').getAttribute('data-key');
         modalQt = 1;
     
-        // Adiciona as informações de cada pizza dentro do modal
+        // ADICIONA AS INFORMAÇÕES DE CADA PIZZA DENTRO DO MODAL
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
@@ -55,7 +57,7 @@ pizzaJson.map((pizza, index) => {
 
 
 
-        //Efeito de transição no modal feito com opacity
+        //EFEITO DE TRANSIÇÃO NO MODAL FEITO COM OPACITY
         // Seta a opacidade do modal para 0      
         c('.pizzaWindowArea').style.opacity = 0;
 
@@ -66,9 +68,23 @@ pizzaJson.map((pizza, index) => {
         setTimeout(() =>{
             c('.pizzaWindowArea').style.opacity = 1;
         },200) // 1/5 de segundo
-    })
+    });
 
-    // Prencher as informações em pizzaItem
+    // PRENCHER AS INFORMAÇÕES EM PIZZAITEM
     c('.pizza-area').append(pizzaItem); //append(), pega o conteúdo já existente e adiciona mais um conteúdo, diferente do innerHTML que substitui o conteúdo
 
-})
+});
+
+// Eventos do Modal
+// Função que quando executada fecha o modal
+const closeModal = () => {
+    c('.pizzaWindowArea').style.opacity = 0;
+    setTimeout(() => {
+        c('.pizzaWindowArea').style.display = "none";
+    }, 500)
+};
+
+// Percorre essas duas classes e adiciona um evento de click que executa a função closeModal
+ca('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
+    item.addEventListener('click', closeModal);
+});
