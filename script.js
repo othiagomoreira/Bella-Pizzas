@@ -2,6 +2,9 @@
 const c = (el)=> document.querySelector(el);
 const ca = (el)=> document.querySelectorAll(el);
 
+//Armazena a quantidade de items(pizzas)
+let = modalQt = 1;
+
 pizzaJson.map((pizza, index) => {
     // Clona o pizza-item com todos os atributos e valores
     let pizzaItem = c('.models .pizza-item').cloneNode(true);
@@ -25,18 +28,32 @@ pizzaJson.map((pizza, index) => {
 
         //o método closest() retorna o ancestral mais próximo
         const key = e.target.closest('.pizza-item').getAttribute('data-key');
-
-        
+        modalQt = 1;
+    
         // Adiciona as informações de cada pizza dentro do modal
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
         c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`; 
 
-        //Percorre todos os itens com essa classe
+        //Remove a class selected,para fazer uma condição come ela logo abaixo
+        c('.pizzaInfo--size.selected').classList.remove('selected');
+
+        //Percorre todos os itens com essa classe e adiciona o tamanho especifico de cada um
         ca(".pizzaInfo--size").forEach((size, sizeIndex) => {
+
+            //Se o sizeIndex for igual a 2(index da pizza tamanho grande) adicione a class selected
+            //Faz com que a pizza grande sempre comece selecionada(marketing)
+            if(sizeIndex === 2) {
+                size.classList.add('selected');
+            }
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
         })
+
+        // Quantidade de pizzas
+        c('.pizzaInfo--qt').innerHTML = modalQt;
+
+
 
         //Efeito de transição no modal feito com opacity
         // Seta a opacidade do modal para 0      
