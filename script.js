@@ -88,3 +88,24 @@ const closeModal = () => {
 ca('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
     item.addEventListener('click', closeModal);
 });
+
+//Adicionar ou retirar uma pizza 
+c('.pizzaInfo--qtmais').addEventListener('click', () => {
+    modalQt++; //Adiciona um toda vez que a função for acionada
+    c('.pizzaInfo--qt').innerHTML = modalQt; //Exibi na tela o novo valor de modalQt
+})
+
+c('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if(modalQt > 1) { //Verificação para garantir que sempre tera pelomenos 1pizza no carrinho
+        modalQt--; //Subtrai um toda vez que a função for acionada
+        c('.pizzaInfo--qt').innerHTML = modalQt; //Exibi na tela o novo valor de modalQt
+    }
+})
+
+// Selecionar o tamanho da pizza desejada
+ca(".pizzaInfo--size").forEach((size) => { //Utilizado para que evento seja executado em todas as class pizzaInfo-size
+    size.addEventListener('click', () => { //Adiciona um evento de click aos 3 tamanhos disponiveis
+        c('.pizzaInfo--size.selected').classList.remove('selected'); //Remove a class selected 
+        size.classList.add('selected'); //Adiciona a class selectd
+    });
+});
