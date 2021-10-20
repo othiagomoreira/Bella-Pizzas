@@ -5,6 +5,11 @@ const ca = (el)=> document.querySelectorAll(el);
 //Armazena a quantidade de items(pizzas)
 let = modalQt = 1;
 
+// Armazena todas as informaçoes da pizza nesse array carrinho
+let carrinho = [];
+
+// Adiciona o index de cada item do array pizzaJson para podermos utilizar quando o modal for fechado
+let modalKey = 0;
 
 // Listagem das Pizzas
 pizzaJson.map((pizza, index) => {
@@ -30,7 +35,9 @@ pizzaJson.map((pizza, index) => {
 
         //o método closest() retorna o ancestral mais próximo
         const key = e.target.closest('.pizza-item').getAttribute('data-key');
+
         modalQt = 1;
+        modalKey = key
     
         // ADICIONA AS INFORMAÇÕES DE CADA PIZZA DENTRO DO MODAL
         c('.pizzaBig img').src = pizzaJson[key].img;
@@ -93,14 +100,14 @@ ca('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) =>
 c('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQt++; //Adiciona um toda vez que a função for acionada
     c('.pizzaInfo--qt').innerHTML = modalQt; //Exibi na tela o novo valor de modalQt
-})
+});
 
 c('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if(modalQt > 1) { //Verificação para garantir que sempre tera pelomenos 1pizza no carrinho
         modalQt--; //Subtrai um toda vez que a função for acionada
         c('.pizzaInfo--qt').innerHTML = modalQt; //Exibi na tela o novo valor de modalQt
-    }
-})
+    };
+});
 
 // Selecionar o tamanho da pizza desejada
 ca(".pizzaInfo--size").forEach((size) => { //Utilizado para que evento seja executado em todas as class pizzaInfo-size
@@ -108,4 +115,30 @@ ca(".pizzaInfo--size").forEach((size) => { //Utilizado para que evento seja exec
         c('.pizzaInfo--size.selected').classList.remove('selected'); //Remove a class selected 
         size.classList.add('selected'); //Adiciona a class selectd
     });
+});
+
+// Adiciona um evendo no button adicionar ao carrinho
+c('.pizzaInfo--addButton').addEventListener('click', () => {
+    //Qual tamanho?
+    //O atribute data-key ira identificar qual pizza está sendo selecionada
+    let size = +c('.pizzaInfo--size.selected').getAttribute('data-key'); 
+
+    // Para adicionar a quantidade de pizzas de pedidos iguais quando o modal for aberto e fechado novamente
+    let identifier = pizzaJson[modalKey].id+'@'+size; //Toda pizza que tiver o mesmo tamanho terá esse identificador
+    
+    //Verifica se os identifier de cada item dentro do carrinho é igual ao meu identifier
+    let key = carrinho.findIndex((item) => item.identifier === identifier);
+
+    if(key > -1) { 
+        carrinho[key].qt += modalQt;
+    } else { // Adicionar ao carrinho
+        carrinho.push({
+            identifier,
+            id:pizzaJson[modalKey].id, //Qual pizza?
+            size, //Qual tamanho?
+            qt:modalQt //Quntidade de pizzas?
+        });
+    }
+
+    closeModal();
 });
