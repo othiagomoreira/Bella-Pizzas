@@ -144,6 +144,17 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
     closeModal(); //Fecha o modal
 });
 
+//MOBILE 
+c('.menu-openner').addEventListener('click', () => {
+    if(carrinho.length > 0) { //Caso tenha algum item dentro do carrinho
+        c('aside').style.left = "0"; //Left 0 fara com que ele apareça na tela, já que está setado como left 100vw
+    }
+});
+
+c('.menu-closer').addEventListener('click', () => { //Quando o "X" for precionado no mobile o menu fechara
+    c('aside').style.left = "100vw";
+});
+
 // ATUALIZAR O CARRINHO DE COMPRAS
 const updateCart = () => {
     // Adiciona no carrinho mobile a quantidade de pizzas
@@ -220,7 +231,8 @@ const updateCart = () => {
         c('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`
 
     } else { //Se não tiver nenhum item..
-        c('aside').classList.remove('show');
+        c('aside').classList.remove('show'); //Quando diminuir a qtd de pizza para 0 fechara o menu desktop
+        c('aside').style.left = '100vw'; //Quando diminuir a qtd de pizza para 0 fechara o menu mobile
     };
 };
 
